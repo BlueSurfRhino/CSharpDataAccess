@@ -1,0 +1,10 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:CDUINo2" x:Class="CDUINo2.MainWindow"
+        Title="MainWindow" Height="350" Width="880.821">
+    <Grid>
+        <DataGrid x:Name="CdDataGrid" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="30,36,0,0" VerticalAlignment="Top" Height="210" Width="511">
+        </DataGrid>
+    </Grid>
+</Window>
