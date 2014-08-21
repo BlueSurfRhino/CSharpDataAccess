@@ -67,7 +67,13 @@ namespace CDUINo2
 
         private void ClickAddCd(object sender, RoutedEventArgs e)
         {
-
+            Song newSong = new Song();
+            newSong.SongTitle = SongTitleInput.Text;
+            newSong.ArtistID = 3;
+            newSong.AlbumID = 5;
+            newSong.GenreID = 1;
+            _CdCatalog.Songs.InsertOnSubmit(newSong);
+            _CdCatalog.SubmitChanges();
         }
 
         private void ClickDeleteCD(object sender, RoutedEventArgs e)

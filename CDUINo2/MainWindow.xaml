@@ -21,14 +21,15 @@
         <TextBlock HorizontalAlignment="Left" Margin="50,308,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Title" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Left" Margin="44,349,0,0" TextWrapping="Wrap" Text="Artist" VerticalAlignment="Top" RenderTransformOrigin="0.234,1.2" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Left" Margin="38,387,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Album" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="81,307,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="272"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="81,349,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="272"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="81,386,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="272"/>
+        <TextBox x:Name="SongTitleInput" HorizontalAlignment="Left" Height="23" Margin="81,307,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272"/>
+        <TextBox x:Name="ArtistInput" HorizontalAlignment="Left" Height="23" Margin="81,349,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272"/>
+        <TextBox x:Name="AlbumInput" HorizontalAlignment="Left" Height="23" Margin="81,386,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272"/>
         <TextBlock HorizontalAlignment="Left" Margin="382,308,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Track Number" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Left" Margin="389,349,0,0" TextWrapping="Wrap" Text="Track Length" VerticalAlignment="Top" RenderTransformOrigin="0.234,1.2" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Left" Margin="425,387,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Rating" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="468,307,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="51"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="466,348,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="53"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="468,386,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="51"/>
+        <TextBox x:Name="TrackNumberInput" HorizontalAlignment="Left" Height="23" Margin="468,307,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51"/>
+        <TextBox x:Name="TrackLengthInput" HorizontalAlignment="Left" Height="23" Margin="466,348,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="53"/>
+        <TextBox x:Name="RatingInput" HorizontalAlignment="Left" Height="23" Margin="468,386,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51"/>
+        <TextBlock x:Name="AddErrorOutput" HorizontalAlignment="Left" Height="102" Margin="546,307,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" FontWeight="Bold" Foreground="Red"/>
     </Grid>
 </Window>
