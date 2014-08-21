@@ -11,6 +11,9 @@
             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
         </Grid.Background>
         <DataGrid x:Name="CdDataGrid" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="36,75,0,0" VerticalAlignment="Top" Height="210" Width="695">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn x:Name="SongCheckBox" Header="Delete"/>
+            </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="FindCd" Content="Find CD" HorizontalAlignment="Left" Margin="766,75,0,0" VerticalAlignment="Top" Width="75" Click="FindCDClick" FontWeight="Bold"/>
         <Button x:Name="AddCd" Content="Add CD" HorizontalAlignment="Left" Margin="766,307,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" Click="ClickAddCd"/>
