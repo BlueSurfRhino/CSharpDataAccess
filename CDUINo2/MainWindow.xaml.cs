@@ -1,5 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Linq;
+using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace CDUINo2
 {
@@ -19,6 +23,7 @@ namespace CDUINo2
 
         private void PopulatedObservableCollection(ObservableCollection<RcoSong> songTitleCollection)
         {
+            SongTitleCollection.Clear();
             foreach (var song in _CdCatalog.Songs)
             {
                 var tmpSong = new RcoSong();
@@ -27,12 +32,37 @@ namespace CDUINo2
                 tmpSong.ArtistId = song.ArtistID; 
                 tmpSong.AlbumId = song.AlbumID;
                 tmpSong.Artist = song.Artist.ArtistName;
-               
-
-
-
                 songTitleCollection.Add(tmpSong);
             }
+        }
+
+        private void FindCDClick(object sender, RoutedEventArgs e)
+        {
+            SongTitleCollection.Clear();
+            string tmpSearch = SearchText.Text;
+            var songTable = _CdCatalog.GetTable<Song>();
+            var q =
+                songTable.Where(s => s.SongTitle.Contains(tmpSearch));
+            UpDateObservableCollection(SongTitleCollection, q);
+        }
+
+        private void UpDateObservableCollection(ObservableCollection<RcoSong> songTitleCollection, IQueryable<Song> songs)
+        {
+            foreach (var song in songs)
+            {
+                var tmpSong = new RcoSong();
+                tmpSong.Id = song.SongID;
+                tmpSong.Name = song.SongTitle;
+                tmpSong.ArtistId = song.ArtistID;
+                tmpSong.AlbumId = song.AlbumID;
+                tmpSong.Artist = song.Artist.ArtistName;
+                songTitleCollection.Add(tmpSong);
+            }
+        }
+
+        private void ClickListCds(object sender, RoutedEventArgs e)
+        {
+            PopulatedObservableCollection(SongTitleCollection);
         }
     }
 
