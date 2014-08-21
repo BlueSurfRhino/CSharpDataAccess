@@ -2,14 +2,33 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:CDUINo2" x:Class="CDUINo2.MainWindow"
-        Title="MainWindow" Height="350" Width="880.821">
+        Title="Music Library" Height="461.4" Width="880.821">
+    <Window.Resources>
+        <Color x:Key="Color1">Black</Color>
+    </Window.Resources>
     <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
+        </Grid.Background>
         <DataGrid x:Name="CdDataGrid" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="36,75,0,0" VerticalAlignment="Top" Height="210" Width="695">
         </DataGrid>
-        <Button x:Name="FindCd" Content="Find CD" HorizontalAlignment="Left" Margin="766,36,0,0" VerticalAlignment="Top" Width="75" Click="FindCDClick"/>
-        <Button x:Name="AddCd" Content="Add CD" HorizontalAlignment="Left" Margin="766,75,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="DeleteCD" Content="Delete CD" HorizontalAlignment="Left" Margin="766,116,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="ListCds" Content="List CDs" HorizontalAlignment="Left" Margin="766,155,0,0" VerticalAlignment="Top" Width="75" Click="ClickListCds"/>
-        <TextBox x:Name="SearchText" HorizontalAlignment="Left" Height="23" Margin="466,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="265"/>
+        <Button x:Name="FindCd" Content="Find CD" HorizontalAlignment="Left" Margin="766,75,0,0" VerticalAlignment="Top" Width="75" Click="FindCDClick" FontWeight="Bold"/>
+        <Button x:Name="AddCd" Content="Add CD" HorizontalAlignment="Left" Margin="766,307,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" Click="ClickAddCd"/>
+        <Button x:Name="DeleteCD" Content="Delete CD" HorizontalAlignment="Left" Margin="766,116,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" Click="ClickDeleteCD"/>
+        <Button x:Name="ListCds" Content="List CDs" HorizontalAlignment="Left" Margin="766,155,0,0" VerticalAlignment="Top" Width="75" Click="ClickListCds" FontWeight="Bold"/>
+        <TextBox x:Name="SearchText" HorizontalAlignment="Left" Height="23" Margin="546,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="295"/>
+        <TextBlock HorizontalAlignment="Left" Margin="518,39,0,0" TextWrapping="Wrap" Text="Find" VerticalAlignment="Top" RenderTransformOrigin="1.742,0.764" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="50,308,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Title" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="44,349,0,0" TextWrapping="Wrap" Text="Artist" VerticalAlignment="Top" RenderTransformOrigin="0.234,1.2" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="38,387,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Album" FontWeight="Bold"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="81,307,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="272"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="81,349,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="272"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="81,386,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="272"/>
+        <TextBlock HorizontalAlignment="Left" Margin="382,308,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Track Number" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="389,349,0,0" TextWrapping="Wrap" Text="Track Length" VerticalAlignment="Top" RenderTransformOrigin="0.234,1.2" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="425,387,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Rating" FontWeight="Bold"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="468,307,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="51"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="466,348,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="53"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="468,386,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="51"/>
     </Grid>
 </Window>

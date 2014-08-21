@@ -64,6 +64,16 @@ namespace CDUINo2
         {
             PopulatedObservableCollection(SongTitleCollection);
         }
+
+        private void ClickAddCd(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClickDeleteCD(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
     public class RcoSong
