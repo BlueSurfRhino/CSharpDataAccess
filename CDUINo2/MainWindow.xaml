@@ -14,11 +14,10 @@
             <DataGrid.Columns>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="FindCd" Content="Find CD" HorizontalAlignment="Left" Margin="766,75,0,0" VerticalAlignment="Top" Width="75" Click="FindCDClick" FontWeight="Bold"/>
         <Button x:Name="AddCd" Content="Add CD" HorizontalAlignment="Left" Margin="766,307,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" Click="ClickAddCd"/>
-        <Button x:Name="DeleteCD" Content="Delete CD" HorizontalAlignment="Left" Margin="766,116,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" Click="ClickDeleteCD"/>
-        <Button x:Name="ListCds" Content="List CDs" HorizontalAlignment="Left" Margin="766,155,0,0" VerticalAlignment="Top" Width="75" Click="ClickListCds" FontWeight="Bold"/>
-        <TextBox x:Name="SearchText" HorizontalAlignment="Left" Height="23" Margin="546,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="295"/>
+        <Button x:Name="DeleteCD" Content="Delete CD" HorizontalAlignment="Left" Margin="766,74,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" Click="ClickDeleteCD"/>
+        <Button x:Name="ListCds" Content="List CDs" HorizontalAlignment="Left" Margin="766,113,0,0" VerticalAlignment="Top" Width="75" Click="ClickListCds" FontWeight="Bold"/>
+        <TextBox x:Name="SearchText" HorizontalAlignment="Left" Height="23" Margin="546,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="295" TextChanged="SearchTextChanged"/>
         <TextBlock HorizontalAlignment="Left" Margin="518,39,0,0" TextWrapping="Wrap" Text="Find" VerticalAlignment="Top" RenderTransformOrigin="1.742,0.764" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Left" Margin="50,308,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Title" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Left" Margin="44,349,0,0" TextWrapping="Wrap" Text="Artist" VerticalAlignment="Top" RenderTransformOrigin="0.234,1.2" FontWeight="Bold"/>

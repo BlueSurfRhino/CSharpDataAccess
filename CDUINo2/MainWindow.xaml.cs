@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 
 namespace CDUINo2
 {
@@ -35,16 +32,6 @@ namespace CDUINo2
                 tmpSong.Artist = song.Artist.ArtistName;
                 songTitleCollection.Add(tmpSong);
             }
-        }
-
-        private void FindCDClick(object sender, RoutedEventArgs e)
-        {
-            SongTitleCollection.Clear();
-            string tmpSearch = SearchText.Text;
-            var songTable = _CdCatalog.GetTable<Song>();
-            var q =
-                songTable.Where(s => s.SongTitle.Contains(tmpSearch));
-            UpDateObservableCollection(SongTitleCollection, q);
         }
 
         private void UpDateObservableCollection(ObservableCollection<RcoSong> songTitleCollection, IQueryable<Song> songs)
@@ -84,10 +71,8 @@ namespace CDUINo2
 
             foreach (RcoSong song in CdDataGrid.SelectedItems)
             {
-               // var q =
-                   // songTable.Where(s => s.SongID == song.Id);
 
-                    foreach (Song s in songTable.Where(s => s.SongID == song.Id))
+                foreach (Song s in songTable.Where(s => s.SongID == song.Id))
                 {
                     _CdCatalog.Songs.DeleteOnSubmit(s);
                 }
@@ -96,7 +81,17 @@ namespace CDUINo2
             PopulatedObservableCollection(SongTitleCollection);
         }
 
-        
+        private void SearchTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            TextBox tmpBox = (TextBox) sender;
+            string tmpSearch = tmpBox.Text;
+
+            SongTitleCollection.Clear();
+            var songTable = _CdCatalog.GetTable<Song>();
+            var q =
+                songTable.Where(s => s.SongTitle.Contains(tmpSearch));
+            UpDateObservableCollection(SongTitleCollection, q);
+        }       
     }
 
     public class RcoSong
