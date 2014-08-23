@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Data.Linq;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 
 namespace CDUINo2
@@ -74,12 +75,28 @@ namespace CDUINo2
             newSong.GenreID = 1;
             _CdCatalog.Songs.InsertOnSubmit(newSong);
             _CdCatalog.SubmitChanges();
+            PopulatedObservableCollection(SongTitleCollection);
         }
 
         private void ClickDeleteCD(object sender, RoutedEventArgs e)
         {
+            var songTable = _CdCatalog.GetTable<Song>();
 
+            foreach (RcoSong song in CdDataGrid.SelectedItems)
+            {
+               // var q =
+                   // songTable.Where(s => s.SongID == song.Id);
+
+                    foreach (Song s in songTable.Where(s => s.SongID == song.Id))
+                {
+                    _CdCatalog.Songs.DeleteOnSubmit(s);
+                }
+            }
+            _CdCatalog.SubmitChanges();
+            PopulatedObservableCollection(SongTitleCollection);
         }
+
+        
     }
 
     public class RcoSong
