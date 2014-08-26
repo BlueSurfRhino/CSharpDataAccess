@@ -22,8 +22,8 @@ namespace CDUINo2
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="CDCatalog")]
-	public partial class CdInfoDbDataContext : System.Data.Linq.DataContext
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="iTunesCatalog")]
+	public partial class iTunesCatalogDataContext : System.Data.Linq.DataContext
 	{
 		
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
@@ -44,31 +44,31 @@ namespace CDUINo2
     partial void DeleteSong(Song instance);
     #endregion
 		
-		public CdInfoDbDataContext() : 
-				base(global::CDUINo2.Properties.Settings.Default.CDCatalogConnectionString, mappingSource)
+		public iTunesCatalogDataContext() : 
+				base(global::CDUINo2.Properties.Settings.Default.iTunesCatalogConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public CdInfoDbDataContext(string connection) : 
+		public iTunesCatalogDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public CdInfoDbDataContext(System.Data.IDbConnection connection) : 
+		public iTunesCatalogDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public CdInfoDbDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public iTunesCatalogDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public CdInfoDbDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public iTunesCatalogDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
@@ -115,11 +115,11 @@ namespace CDUINo2
 		
 		private int _AlbumID;
 		
-		private int _AlbumYear;
+		private int _Year;
 		
 		private int _ArtistID;
 		
-		private string _AlbumTitle;
+		private string _Title;
 		
 		private int _AlbumRating;
 		
@@ -133,12 +133,12 @@ namespace CDUINo2
     partial void OnCreated();
     partial void OnAlbumIDChanging(int value);
     partial void OnAlbumIDChanged();
-    partial void OnAlbumYearChanging(int value);
-    partial void OnAlbumYearChanged();
+    partial void OnYearChanging(int value);
+    partial void OnYearChanged();
     partial void OnArtistIDChanging(int value);
     partial void OnArtistIDChanged();
-    partial void OnAlbumTitleChanging(string value);
-    partial void OnAlbumTitleChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
     partial void OnAlbumRatingChanging(int value);
     partial void OnAlbumRatingChanged();
     #endregion
@@ -170,22 +170,22 @@ namespace CDUINo2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlbumYear", DbType="Int NOT NULL")]
-		public int AlbumYear
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="Int NOT NULL")]
+		public int Year
 		{
 			get
 			{
-				return this._AlbumYear;
+				return this._Year;
 			}
 			set
 			{
-				if ((this._AlbumYear != value))
+				if ((this._Year != value))
 				{
-					this.OnAlbumYearChanging(value);
+					this.OnYearChanging(value);
 					this.SendPropertyChanging();
-					this._AlbumYear = value;
-					this.SendPropertyChanged("AlbumYear");
-					this.OnAlbumYearChanged();
+					this._Year = value;
+					this.SendPropertyChanged("Year");
+					this.OnYearChanged();
 				}
 			}
 		}
@@ -214,22 +214,22 @@ namespace CDUINo2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlbumTitle", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string AlbumTitle
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string Title
 		{
 			get
 			{
-				return this._AlbumTitle;
+				return this._Title;
 			}
 			set
 			{
-				if ((this._AlbumTitle != value))
+				if ((this._Title != value))
 				{
-					this.OnAlbumTitleChanging(value);
+					this.OnTitleChanging(value);
 					this.SendPropertyChanging();
-					this._AlbumTitle = value;
-					this.SendPropertyChanged("AlbumTitle");
-					this.OnAlbumTitleChanged();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
 				}
 			}
 		}
@@ -385,7 +385,7 @@ namespace CDUINo2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ArtistName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ArtistName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
 		public string ArtistName
 		{
 			get
@@ -598,7 +598,7 @@ namespace CDUINo2
 		
 		private int _SongID;
 		
-		private string _SongTitle;
+		private string _Name;
 		
 		private int _ArtistID;
 		
@@ -610,7 +610,7 @@ namespace CDUINo2
 		
 		private int _SongTrackLength;
 		
-		private int _SongRating;
+		private int _PlayCount;
 		
 		private EntityRef<Album> _Album;
 		
@@ -624,8 +624,8 @@ namespace CDUINo2
     partial void OnCreated();
     partial void OnSongIDChanging(int value);
     partial void OnSongIDChanged();
-    partial void OnSongTitleChanging(string value);
-    partial void OnSongTitleChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
     partial void OnArtistIDChanging(int value);
     partial void OnArtistIDChanged();
     partial void OnAlbumIDChanging(int value);
@@ -636,8 +636,8 @@ namespace CDUINo2
     partial void OnGenreIDChanged();
     partial void OnSongTrackLengthChanging(int value);
     partial void OnSongTrackLengthChanged();
-    partial void OnSongRatingChanging(int value);
-    partial void OnSongRatingChanged();
+    partial void OnPlayCountChanging(int value);
+    partial void OnPlayCountChanged();
     #endregion
 		
 		public Song()
@@ -668,22 +668,22 @@ namespace CDUINo2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SongTitle", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string SongTitle
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string Name
 		{
 			get
 			{
-				return this._SongTitle;
+				return this._Name;
 			}
 			set
 			{
-				if ((this._SongTitle != value))
+				if ((this._Name != value))
 				{
-					this.OnSongTitleChanging(value);
+					this.OnNameChanging(value);
 					this.SendPropertyChanging();
-					this._SongTitle = value;
-					this.SendPropertyChanged("SongTitle");
-					this.OnSongTitleChanged();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
 				}
 			}
 		}
@@ -800,22 +800,22 @@ namespace CDUINo2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SongRating", DbType="Int NOT NULL")]
-		public int SongRating
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PlayCount", DbType="Int NOT NULL")]
+		public int PlayCount
 		{
 			get
 			{
-				return this._SongRating;
+				return this._PlayCount;
 			}
 			set
 			{
-				if ((this._SongRating != value))
+				if ((this._PlayCount != value))
 				{
-					this.OnSongRatingChanging(value);
+					this.OnPlayCountChanging(value);
 					this.SendPropertyChanging();
-					this._SongRating = value;
-					this.SendPropertyChanged("SongRating");
-					this.OnSongRatingChanged();
+					this._PlayCount = value;
+					this.SendPropertyChanged("PlayCount");
+					this.OnPlayCountChanged();
 				}
 			}
 		}

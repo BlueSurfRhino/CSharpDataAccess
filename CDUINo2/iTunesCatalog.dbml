@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="CDCatalog" Class="CdInfoDbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=CDCatalog;Integrated Security=True" SettingsObjectName="CDUINo2.Properties.Settings" SettingsPropertyName="CDCatalogConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="iTunesCatalog" Class="iTunesCatalogDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=iTunesCatalog;Integrated Security=True" SettingsObjectName="CDUINo2.Properties.Settings" SettingsPropertyName="iTunesCatalogConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Album" Member="Albums">
     <Type Name="Album">
       <Column Name="AlbumID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="AlbumYear" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Year" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ArtistID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="AlbumTitle" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="AlbumRating" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Album_Song" Member="Songs" ThisKey="AlbumID" OtherKey="AlbumID" Type="Song" />
       <Association Name="Artist_Album" Member="Artist" ThisKey="ArtistID" OtherKey="ArtistID" Type="Artist" IsForeignKey="true" />
@@ -14,7 +14,7 @@
   <Table Name="dbo.Artist" Member="Artists">
     <Type Name="Artist">
       <Column Name="ArtistID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ArtistName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ArtistName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Association Name="Artist_Album" Member="Albums" ThisKey="ArtistID" OtherKey="ArtistID" Type="Album" />
       <Association Name="Artist_Song" Member="Songs" ThisKey="ArtistID" OtherKey="ArtistID" Type="Song" />
     </Type>
@@ -29,13 +29,13 @@
   <Table Name="dbo.Song" Member="Songs">
     <Type Name="Song">
       <Column Name="SongID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="SongTitle" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="ArtistID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AlbumID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="SongTrackNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="GenreID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="SongTrackLength" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SongRating" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Album_Song" Member="Album" ThisKey="AlbumID" OtherKey="AlbumID" Type="Album" IsForeignKey="true" />
       <Association Name="Artist_Song" Member="Artist" ThisKey="ArtistID" OtherKey="ArtistID" Type="Artist" IsForeignKey="true" />
       <Association Name="Genre_Song" Member="Genre" ThisKey="GenreID" OtherKey="GenreID" Type="Genre" IsForeignKey="true" />

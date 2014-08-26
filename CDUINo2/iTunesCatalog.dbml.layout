@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="iTunesCatalog">
+  <DataContextMoniker Name="/iTunesCatalogDataContext" />
+  <nestedChildShapes>
+    <classShape Id="c80599f2-2506-4694-b162-66bdecca5b46" absoluteBounds="3.5, 1.25, 2, 1.7708968098958329">
+      <DataClassMoniker Name="/iTunesCatalogDataContext/Album" />
+      <nestedChildShapes>
+        <elementListCompartment Id="48abca5d-f7fa-49c7-8c68-99d798046ebb" absoluteBounds="3.515, 1.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="de4737bd-ad73-44e7-8472-bb0a7fbc775b" absoluteBounds="0.75, 1.5, 2, 1.1939925130208335">
+      <DataClassMoniker Name="/iTunesCatalogDataContext/Artist" />
+      <nestedChildShapes>
+        <elementListCompartment Id="711c3b58-a4eb-4a34-82c4-734b1134ce7a" absoluteBounds="0.765, 1.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="caf6e92d-1f27-43d2-9d43-03930795d072" absoluteBounds="3.5, 5.5, 2, 1.1939925130208327">
+      <DataClassMoniker Name="/iTunesCatalogDataContext/Genre" />
+      <nestedChildShapes>
+        <elementListCompartment Id="666dfbe6-d53b-4672-af98-02b8c117225c" absoluteBounds="3.515, 5.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="cf9af02e-9ab6-481a-8c9b-a20f215c4901" absoluteBounds="6.25, 1, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/iTunesCatalogDataContext/Song" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bf96ef7c-d090-4955-b3c6-96bf8bf47a31" absoluteBounds="6.265, 1.46, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 2.09699625651042); (3.5 : 2.09699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/iTunesCatalogDataContext/Artist/Artist_Album" />
+      <nodes>
+        <classShapeMoniker Id="de4737bd-ad73-44e7-8472-bb0a7fbc775b" />
+        <classShapeMoniker Id="c80599f2-2506-4694-b162-66bdecca5b46" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 2.13544840494792); (6.25 : 2.13544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/iTunesCatalogDataContext/Album/Album_Song" />
+      <nodes>
+        <classShapeMoniker Id="c80599f2-2506-4694-b162-66bdecca5b46" />
+        <classShapeMoniker Id="cf9af02e-9ab6-481a-8c9b-a20f215c4901" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(1.75 : 2.69399251302083); (1.75 : 3.21559895833333); (6.25 : 3.21559895833333)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/iTunesCatalogDataContext/Artist/Artist_Song" />
+      <nodes>
+        <classShapeMoniker Id="de4737bd-ad73-44e7-8472-bb0a7fbc775b" />
+        <classShapeMoniker Id="cf9af02e-9ab6-481a-8c9b-a20f215c4901" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 6.09699625651042); (7.25 : 6.09699625651042); (7.25 : 3.34780110677083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/iTunesCatalogDataContext/Genre/Genre_Song" />
+      <nodes>
+        <classShapeMoniker Id="caf6e92d-1f27-43d2-9d43-03930795d072" />
+        <classShapeMoniker Id="cf9af02e-9ab6-481a-8c9b-a20f215c4901" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

@@ -11,7 +11,8 @@ namespace CDUINo2
     public partial class MainWindow : Window
     {
         public ObservableCollection<RcoSong> SongTitleCollection = new ObservableCollection<RcoSong>();
-        private static readonly CdInfoDbDataContext _CdCatalog = new CdInfoDbDataContext();
+        //private static readonly CdInfoDbDataContext _CdCatalog = new CdInfoDbDataContext();
+        private static readonly iTunesCatalogDataContext _ITunesCatalog = new iTunesCatalogDataContext();
         public MainWindow()
         {
             InitializeComponent();
@@ -22,14 +23,17 @@ namespace CDUINo2
         private void PopulatedObservableCollection(ObservableCollection<RcoSong> songTitleCollection)
         {
             SongTitleCollection.Clear();
-            foreach (var song in _CdCatalog.Songs)
+            foreach (var song in _ITunesCatalog.Songs)
             {
                 var tmpSong = new RcoSong();
                 tmpSong.Id = song.SongID;
-                tmpSong.Name = song.SongTitle;
-                tmpSong.ArtistId = song.ArtistID; 
+                tmpSong.Name = song.Name;
+                tmpSong.ArtistId = song.ArtistID;
                 tmpSong.AlbumId = song.AlbumID;
+                tmpSong.Album = _ITunesCatalog.Albums.First(id => id.AlbumID == song.AlbumID).Title;
                 tmpSong.Artist = song.Artist.ArtistName;
+                tmpSong.PlayCount = song.PlayCount;
+                tmpSong.TrackLength = song.SongTrackLength;
                 songTitleCollection.Add(tmpSong);
             }
         }
@@ -40,10 +44,13 @@ namespace CDUINo2
             {
                 var tmpSong = new RcoSong();
                 tmpSong.Id = song.SongID;
-                tmpSong.Name = song.SongTitle;
+                tmpSong.Name = song.Name;
                 tmpSong.ArtistId = song.ArtistID;
                 tmpSong.AlbumId = song.AlbumID;
+                tmpSong.Album = _ITunesCatalog.Albums.First(id => id.AlbumID == song.AlbumID).Title;
                 tmpSong.Artist = song.Artist.ArtistName;
+                tmpSong.PlayCount = song.PlayCount;
+                tmpSong.TrackLength = song.SongTrackLength;
                 songTitleCollection.Add(tmpSong);
             }
         }
@@ -56,28 +63,28 @@ namespace CDUINo2
         private void ClickAddCd(object sender, RoutedEventArgs e)
         {
             Song newSong = new Song();
-            newSong.SongTitle = SongTitleInput.Text;
+            newSong.Name = SongTitleInput.Text;
             newSong.ArtistID = 3;
             newSong.AlbumID = 5;
             newSong.GenreID = 1;
-            _CdCatalog.Songs.InsertOnSubmit(newSong);
-            _CdCatalog.SubmitChanges();
+            _ITunesCatalog.Songs.InsertOnSubmit(newSong);
+            _ITunesCatalog.SubmitChanges();
             PopulatedObservableCollection(SongTitleCollection);
         }
 
         private void ClickDeleteCD(object sender, RoutedEventArgs e)
         {
-            var songTable = _CdCatalog.GetTable<Song>();
+            var songTable = _ITunesCatalog.GetTable<Song>();
 
             foreach (RcoSong song in CdDataGrid.SelectedItems)
             {
 
                 foreach (Song s in songTable.Where(s => s.SongID == song.Id))
                 {
-                    _CdCatalog.Songs.DeleteOnSubmit(s);
+                    _ITunesCatalog.Songs.DeleteOnSubmit(s);
                 }
             }
-            _CdCatalog.SubmitChanges();
+            _ITunesCatalog.SubmitChanges();
             PopulatedObservableCollection(SongTitleCollection);
         }
 
@@ -87,9 +94,9 @@ namespace CDUINo2
             string tmpSearch = tmpBox.Text;
 
             SongTitleCollection.Clear();
-            var songTable = _CdCatalog.GetTable<Song>();
+            var songTable = _ITunesCatalog.GetTable<Song>();
             var q =
-                songTable.Where(s => s.SongTitle.Contains(tmpSearch));
+                songTable.Where(s => s.Name.Contains(tmpSearch));
             UpDateObservableCollection(SongTitleCollection, q);
         }       
     }
@@ -101,7 +108,9 @@ namespace CDUINo2
         private int _artistId;
         private string _artist;
         private int _albumId;
-        private int _album;
+        private string _album;
+        private int _playCount;
+        private int _trackLength;
 
 
        public int Id
@@ -132,6 +141,24 @@ namespace CDUINo2
         {
             get { return _artist; }
             set { _artist = value; }
+        }
+
+        public string Album
+        {
+            get { return _album; }
+            set { _album = value; }
+        }
+
+        public int PlayCount
+        {
+            get { return _playCount; }
+            set { _playCount = value; }
+        }
+
+        public int TrackLength
+        {
+            get { return _trackLength; }
+            set { _trackLength = value; }
         }
     }
 }
