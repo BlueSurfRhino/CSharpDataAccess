@@ -4,59 +4,48 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace CDUINo2
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        public ThreadSafeObservationCollection<RcoSong> SongTitleCollection = new ThreadSafeObservationCollection<RcoSong>();
-        //private static readonly CdInfoDbDataContext _CdCatalog = new CdInfoDbDataContext();
-        private static readonly iTunesCatalogDataContext _ITunesCatalog = new iTunesCatalogDataContext();
+        private readonly ThreadSafeObservationCollection<SongDisplayInfo> _songTitleCollection = new ThreadSafeObservationCollection<SongDisplayInfo>();
+        private static readonly iTunesCatalogDataContext _iTunesCatalog = new iTunesCatalogDataContext();
         public MainWindow()
         {
             InitializeComponent();
-            ThreadData ThreadData = new ThreadData();
-            ThreadData.ITunesDC = _ITunesCatalog;
-            ThreadData.ObservableCollection = SongTitleCollection;
-            Worker workerObject = new Worker();
-            Thread workerThread = new Thread(workerObject.LoadObverablesCollection);
-            workerThread.Start(ThreadData);
-            //PopulatedObservableCollection(SongTitleCollection);
-            CdDataGrid.DataContext = SongTitleCollection;
+            // with 20K songs app launch takes too long
+            // so a thread is queries the data and displays it
+            // TO-DO - Add some sort of control showing loading progress
+            var threadData = new ThreadData {ITunesDC = _iTunesCatalog, ObservableCollection = _songTitleCollection};
+            var workerObject = new Worker();
+            var workerThread = new Thread(workerObject.LoadObservablesCollection);
+            workerThread.Start(threadData);
+            CdDataGrid.DataContext = _songTitleCollection;
         }
 
-        private void PopulatedObservableCollection(ThreadSafeObservationCollection<RcoSong> songTitleCollection)
+        private void PopulatedObservableCollection(ThreadSafeObservationCollection<SongDisplayInfo> songTitleCollection)
         {
-            SongTitleCollection.Clear();
-            foreach (var song in _ITunesCatalog.Songs)
-            {
-                var tmpSong = new RcoSong();
-                tmpSong.Id = song.SongID;
-                tmpSong.Name = song.Name;
-                tmpSong.ArtistId = song.ArtistID;
-                tmpSong.AlbumId = song.AlbumID;
-                tmpSong.Album = _ITunesCatalog.Albums.First(id => id.AlbumID == song.AlbumID).Title;
-                tmpSong.Artist = song.Artist.ArtistName;
-                tmpSong.PlayCount = song.PlayCount;
-                tmpSong.TrackLength = song.SongTrackLength;
-                songTitleCollection.Add(tmpSong);
-            }
+            var threadData = new ThreadData { ITunesDC = _iTunesCatalog, ObservableCollection = songTitleCollection };
+            var workerObject = new Worker();
+            var workerThread = new Thread(workerObject.LoadObservablesCollection);
+            workerThread.Start(threadData);
+
         }
 
-        private void UpDateObservableCollection(ObservableCollection<RcoSong> songTitleCollection, IQueryable<Song> songs)
+        private void UpDateObservableCollection(ThreadSafeObservationCollection<SongDisplayInfo> songTitleCollection, IQueryable<Song> songs)
         {
+            var tmpSong = new SongDisplayInfo();
             foreach (var song in songs)
             {
-                var tmpSong = new RcoSong();
                 tmpSong.Id = song.SongID;
                 tmpSong.Name = song.Name;
                 tmpSong.ArtistId = song.ArtistID;
                 tmpSong.AlbumId = song.AlbumID;
-                tmpSong.Album = _ITunesCatalog.Albums.First(id => id.AlbumID == song.AlbumID).Title;
+                tmpSong.Album = _iTunesCatalog.Albums.First(id => id.AlbumID == song.AlbumID).Title;
                 tmpSong.Artist = song.Artist.ArtistName;
                 tmpSong.PlayCount = song.PlayCount;
                 tmpSong.TrackLength = song.SongTrackLength;
@@ -66,35 +55,35 @@ namespace CDUINo2
 
         private void ClickListCds(object sender, RoutedEventArgs e)
         {
-            PopulatedObservableCollection(SongTitleCollection);
+            PopulatedObservableCollection(_songTitleCollection);
         }
 
         private void ClickAddCd(object sender, RoutedEventArgs e)
         {
-            Song newSong = new Song();
+            var newSong = new Song();
             newSong.Name = SongTitleInput.Text;
             newSong.ArtistID = 3;
             newSong.AlbumID = 5;
             newSong.GenreID = 1;
-            _ITunesCatalog.Songs.InsertOnSubmit(newSong);
-            _ITunesCatalog.SubmitChanges();
-            PopulatedObservableCollection(SongTitleCollection);
+            _iTunesCatalog.Songs.InsertOnSubmit(newSong);
+            _iTunesCatalog.SubmitChanges();
+            PopulatedObservableCollection(_songTitleCollection);
         }
 
         private void ClickDeleteCD(object sender, RoutedEventArgs e)
         {
-            var songTable = _ITunesCatalog.GetTable<Song>();
+            var songTable = _iTunesCatalog.GetTable<Song>();
 
-            foreach (RcoSong song in CdDataGrid.SelectedItems)
+            foreach (SongDisplayInfo song in CdDataGrid.SelectedItems)
             {
 
                 foreach (Song s in songTable.Where(s => s.SongID == song.Id))
                 {
-                    _ITunesCatalog.Songs.DeleteOnSubmit(s);
+                    _iTunesCatalog.Songs.DeleteOnSubmit(s);
                 }
             }
-            _ITunesCatalog.SubmitChanges();
-            PopulatedObservableCollection(SongTitleCollection);
+            _iTunesCatalog.SubmitChanges();
+            PopulatedObservableCollection(_songTitleCollection);
         }
 
         private void SearchTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -102,27 +91,32 @@ namespace CDUINo2
             TextBox tmpBox = (TextBox) sender;
             string tmpSearch = tmpBox.Text;
 
-            SongTitleCollection.Clear();
-            var songTable = _ITunesCatalog.GetTable<Song>();
+            _songTitleCollection.Clear();
+            var songTable = _iTunesCatalog.GetTable<Song>();
+            // only grab the first 100 songs because it takes too long
+            // with the initial single character, like "l" in "love"
+            // too many matches
             var q =
                 songTable.Where(s => s.Name.Contains(tmpSearch)).Take(100);
-           UpDateObservableCollection(SongTitleCollection, q);
+           UpDateObservableCollection(_songTitleCollection, q);
         }       
     }
 
     public class Worker
     {
-        public void LoadObverablesCollection(object data)
+        public void LoadObservablesCollection(object data)
         {
-            ThreadData TData = (ThreadData) data;
+            var tData = (ThreadData) data;
+            if (tData == null) throw new ArgumentNullException("tData");
+            ObservableCollection<SongDisplayInfo> songTitleCollection = tData.ObservableCollection;
+            if (songTitleCollection == null) throw new ArgumentNullException("songTitleCollection");
+            var iTunesCatalog = tData.ITunesDC;
 
-            ObservableCollection<RcoSong> SongTitleCollection = TData.ObservableCollection;
-            iTunesCatalogDataContext iTunesCatalog = TData.ITunesDC;
-
-            SongTitleCollection.Clear();
-            foreach (var song in iTunesCatalog.Songs)
+            songTitleCollection.Clear();
+            var songs = iTunesCatalog.Songs.Select(x => x).ToList();
+            var tmpSong = new SongDisplayInfo();
+            foreach (var song in songs)
             {
-                var tmpSong = new RcoSong();
                 tmpSong.Id = song.SongID;
                 tmpSong.Name = song.Name;
                 tmpSong.ArtistId = song.ArtistID;
@@ -131,213 +125,8 @@ namespace CDUINo2
                 tmpSong.Artist = song.Artist.ArtistName;
                 tmpSong.PlayCount = song.PlayCount;
                 tmpSong.TrackLength = song.SongTrackLength;
-                SongTitleCollection.Add(tmpSong);
+                songTitleCollection.Add(tmpSong);
             }
-
-        }
-
-    }
-
-    public class ThreadData
-    {
-        public iTunesCatalogDataContext ITunesDC;
-        public ThreadSafeObservationCollection<RcoSong> ObservableCollection;
-    }
-
-    public class ThreadSafeObservationCollection<T> : ObservableCollection<T>
-    {
-        private Dispatcher _dispatcher;
-        private ReaderWriterLockSlim _lock;
-
-        public ThreadSafeObservationCollection()
-        {
-            _dispatcher = Dispatcher.CurrentDispatcher;
-            _lock = new ReaderWriterLockSlim();
-
-        }
-
-        protected override void ClearItems()
-        {
-            _dispatcher.InvokeIfRequired(() =>
-            {
-                _lock.EnterWriteLock();
-                try
-                {
-                    base.ClearItems();
-                }
-                finally
-                {
-                    _lock.ExitWriteLock();
-                }
-            }, DispatcherPriority.DataBind);
-        }
-
-        protected override void InsertItem(int index, T item)
-        {
-            _dispatcher.InvokeIfRequired(() =>
-            {
-                if(index >  this.Count)
-                    return;
-                _lock.EnterWriteLock();
-                try
-                {
-                    base.InsertItem(index, item);
-                }
-                finally
-                {
-                    _lock.ExitWriteLock();
-                }
-            }, DispatcherPriority.DataBind);
-        }
-
-        protected override void MoveItem(int oldIndex, int newIndex)
-        {
-            _dispatcher.InvokeIfRequired(() =>
-            {
-
-                _lock.EnterReadLock();
-                Int32 itemCount = this.Count;
-                _lock.ExitReadLock();
-                if(oldIndex >= itemCount | newIndex >= itemCount | oldIndex == newIndex)
-                    return;
-                _lock.EnterWriteLock();
-                try
-                {
-                    base.MoveItem(oldIndex, newIndex);
-                }
-                finally
-                {
-                    _lock.ExitWriteLock();
-                }
-            }, DispatcherPriority.DataBind);
-        }
-
-        protected override void RemoveItem(int index)
-        {
-            _dispatcher.InvokeIfRequired(() =>
-            {
-                if (index >= this.Count)
-                    return;
-                _lock.EnterWriteLock();
-                try
-                {
-                    base.RemoveItem(index);
-                }
-                finally
-                {
-                    _lock.ExitWriteLock();
-                }
-            }, DispatcherPriority.DataBind);
-        }
-
-        protected override void SetItem(int index, T item)
-        {
-            _dispatcher.InvokeIfRequired(() =>
-            {
-                _lock.EnterWriteLock();
-                try
-                {
-                    base.SetItem(index, item);
-                }
-                finally
-                {
-                    _lock.ExitWriteLock();
-                }
-            }, DispatcherPriority.DataBind);
-        }
-
-        public T[] ToSyncArray()
-        {
-            _lock.EnterReadLock();
-            try
-            {
-                T[] _sync = new T[this.Count];
-                this.CopyTo(_sync, 0);
-                return _sync;
-            }
-            finally 
-            {
-                
-                _lock.ExitReadLock();
-            }
-        }
-
-    }
-
-    public static class WPFControlThreadingExtensions
-    {
-        public static void InvokeIfRequired(this Dispatcher disp,
-            Action dotIt,
-            DispatcherPriority priority)
-        {
-            if (disp.Thread != Thread.CurrentThread)
-            {
-                disp.Invoke(priority, dotIt);
-            }
-            else
-            {
-                dotIt();
-            }
-        }
-    }
-    public class RcoSong
-    {
-        private string _name;
-        private int _id;
-        private int _artistId;
-        private string _artist;
-        private int _albumId;
-        private string _album;
-        private int _playCount;
-        private int _trackLength;
-
-
-       public int Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
-
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
-        public int ArtistId
-        {
-            get { return _artistId; }
-            set { _artistId = value; }
-        }
-
-        public int AlbumId
-        {
-            get { return _albumId; }
-            set { _albumId = value; }
-        }
-
-        public string Artist
-        {
-            get { return _artist; }
-            set { _artist = value; }
-        }
-
-        public string Album
-        {
-            get { return _album; }
-            set { _album = value; }
-        }
-
-        public int PlayCount
-        {
-            get { return _playCount; }
-            set { _playCount = value; }
-        }
-
-        public int TrackLength
-        {
-            get { return _trackLength; }
-            set { _trackLength = value; }
         }
     }
 }

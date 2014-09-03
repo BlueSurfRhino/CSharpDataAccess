@@ -36,6 +36,6 @@
         <TextBox x:Name="TrackNumberInput" HorizontalAlignment="Left" Height="23" Margin="468,307,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51"/>
         <TextBox x:Name="TrackLengthInput" HorizontalAlignment="Left" Height="23" Margin="466,348,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="53"/>
         <TextBox x:Name="RatingInput" HorizontalAlignment="Left" Height="23" Margin="468,386,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51"/>
-        <TextBlock x:Name="AddErrorOutput" HorizontalAlignment="Left" Height="102" Margin="716,307,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" FontWeight="Bold" Foreground="Red" Text="Warning - on Add CD only Title field is added!"/>
+        <TextBlock x:Name="AddErrorOutput" HorizontalAlignment="Left" Height="102" Margin="666,307,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" FontWeight="Bold" Foreground="Red" Text="Warning - on Add CD only Title field is added!"/>
     </Grid>
 </Window>

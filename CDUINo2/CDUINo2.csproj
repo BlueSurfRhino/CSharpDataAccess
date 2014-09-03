@@ -54,6 +54,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SongDisplayInfo.cs" />
+    <Compile Include="ThreadData.cs" />
+    <Compile Include="ThreadSafeObservationCollection.cs" />
+    <Compile Include="WpfControlThreadingExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
